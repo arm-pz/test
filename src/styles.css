@@ -1,4 +1,5 @@
 :root {
+  color-scheme: dark;
   --bg: #0b0a12;
   --bg-2: #12101c;
   --ink: #f2efe9;
@@ -747,20 +748,18 @@ h3 {
 }
 
 /* ---------- Reveal ---------- */
+/* Content is readable at rest; the reveal only adds a short rise */
 [data-reveal] {
-  opacity: 0;
-  transform: translateY(28px);
-  transition: opacity 1s cubic-bezier(0.2, 0.7, 0.2, 1), transform 1s cubic-bezier(0.2, 0.7, 0.2, 1);
+  transform: translateY(20px);
+  transition: transform 1s cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 
 [data-reveal].is-in {
-  opacity: 1;
   transform: none;
 }
 
 @media (prefers-reduced-motion: reduce) {
   [data-reveal] {
-    opacity: 1;
     transform: none;
     transition: none;
   }
