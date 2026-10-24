@@ -1,0 +1,106 @@
+@import 'tailwindcss';
+
+/* Navy worsted ground, bone ink like tailor's chalk, brass from the crown in
+   the Richman mark. Brass is reserved for the booking action and the tape. */
+@theme {
+  --color-wool: #111725;
+  --color-wool-2: #1a2233;
+  --color-bone: #ece6da;
+  --color-mute: #a8adb9;
+  --color-brass: #c9a35b;
+  --color-brass-ink: #18130a;
+  --color-tape: #d9c58f;
+  --color-tape-ink: #2a2412;
+
+  --font-display: 'Bodoni Moda', 'Didot', 'Bodoni 72', Georgia, serif;
+  --font-sans: 'Hanken Grotesk', 'Helvetica Neue', Arial, sans-serif;
+
+  --text-small: 0.875rem;
+  --text-body: 1.0625rem;
+  --text-lead: clamp(1.125rem, 1rem + 0.45vw, 1.3125rem);
+  --text-head: clamp(2.1rem, 1.4rem + 2.8vw, 3.6rem);
+  --text-hero: clamp(3.2rem, 1.5rem + 6.6vw, 7.25rem);
+}
+
+:root {
+  color-scheme: dark;
+  --gutter-l: max(24px, env(safe-area-inset-left, 0px));
+  --gutter-r: max(24px, env(safe-area-inset-right, 0px));
+}
+@media (max-width: 760px) {
+  :root {
+    --gutter-l: max(16px, env(safe-area-inset-left, 0px));
+    --gutter-r: max(16px, env(safe-area-inset-right, 0px));
+  }
+}
+
+html {
+  background: var(--color-wool);
+}
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+body {
+  margin: 0;
+  background: var(--color-wool);
+  color: var(--color-bone);
+  font-family: var(--font-sans);
+  font-size: var(--text-body);
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-brass);
+  outline-offset: 3px;
+}
+
+h1,
+h2 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  text-wrap: balance;
+}
+
+.gutter {
+  padding-left: var(--gutter-l);
+  padding-right: var(--gutter-r);
+}
+
+/* The stage light: one soft pool behind the form, like the shop's spot. */
+.stage-light {
+  background: radial-gradient(48% 62% at 66% 46%, #222c42 0%, #161d2d 46%, var(--color-wool) 78%);
+}
+@media (max-width: 760px) {
+  .stage-light {
+    background: radial-gradient(90% 46% at 50% 66%, #222c42 0%, #161d2d 50%, var(--color-wool) 82%);
+  }
+}
+
+/* Piece labels projected from the 3D scene. */
+.piece-label {
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;
+  line-height: 1;
+  white-space: nowrap;
+  color: var(--color-bone);
+  background: var(--color-wool);
+  padding: 5px 8px 6px;
+  border-radius: 2px;
+  pointer-events: none;
+  user-select: none;
+}
+.piece-label b {
+  font-weight: 500;
+}
+.piece-label span {
+  color: var(--color-mute);
+  margin-left: 6px;
+}
