@@ -1,4 +1,4 @@
-/** Everything the page says, in one place. Facts come from the shop's own
+/** Everything the page says, in one place. Shop facts come from the shop's own
  *  Instagram (@richman_calicut): name, address, phone, what they make. */
 
 export const shop = {
@@ -10,49 +10,45 @@ export const shop = {
   instagram: 'https://www.instagram.com/richman_calicut/',
 };
 
+/** Copy beats over the pinned hero; `from`/`to` are scroll progress (0–1). */
 export const beats = [
   {
-    // shown at rest; scroll starts it moving
     from: -1,
-    to: 0.12,
+    to: 0.1,
     title: 'Cut for you in Calicut',
     body: 'Suits, shirts and trousers made to your measurements at Richman, Ram Mohan Road.',
     cta: true,
   },
   {
-    from: 0.2,
+    from: 0.18,
     to: 0.4,
-    title: 'Every jacket starts as flat cloth',
-    body: 'Unpick the stitches and a double-breasted jacket is eleven pieces and six buttons.',
+    title: 'Lift the cloth. Find the canvas.',
+    body: 'In a canvassed jacket, a layer of canvas is pad-stitched under the wool so the chest and lapels keep their shape.',
   },
   {
-    from: 0.48,
+    from: 0.46,
     to: 0.58,
-    title: 'Drafted to one body',
-    body: 'Fronts, back, sleeves, lapels and collar are each drawn from your measurements before the cloth is cut.',
+    title: 'Every piece is cut to you',
+    body: 'Fronts, sleeves, lapels, flaps. Each one is drafted from your measurements before the cloth is cut.',
   },
   {
-    from: 0.66,
-    to: 0.82,
+    from: 0.65,
+    to: 0.83,
     title: 'Then built back around you',
-    body: 'The pieces are joined, pressed and fitted until the stripes meet across every seam.',
+    body: 'Joined, pressed and fitted until it hangs as if it was always one piece.',
   },
   {
     from: 0.9,
     to: 2,
-    title: 'Pick the cloth. We cut the rest.',
-    body: 'A size 38 on our mannequin here. Yours is drafted to your own measurements.',
+    title: 'Made to measure on Ram Mohan Road',
+    body: 'Come in, choose the cloth and the cut, and we take your measurements.',
     cta: true,
   },
 ] as const;
 
-/** Cloths taken from suits and blazers in the shop's recent posts. */
-export const cloths = [
-  {id: 'chalk', name: 'Navy chalk stripe', swatch: '#27324a'},
-  {id: 'brown', name: 'Brown worsted', swatch: '#5a4232'},
-  {id: 'black', name: 'Black', swatch: '#1b1c20'},
-  {id: 'rust', name: 'Rust', swatch: '#8a3f2c'},
-  {id: 'teal', name: 'Teal', swatch: '#1f6f78'},
-] as const;
-
-export type ClothId = (typeof cloths)[number]['id'];
+export const credits = [
+  {what: 'Jacket', who: 'Victoria Priessnitz', where: 'Unsplash', href: 'https://unsplash.com/photos/black-suit-jacket-on-white-plastic-clothes-hanger-VsCBt8j-qg4'},
+  {what: 'Canvas and pad-stitching', who: 'Tima Miroshnichenko', where: 'Pexels', href: 'https://www.pexels.com/photo/an-unfinished-lapel-of-a-suit-jacket-6764990/'},
+  {what: 'Fitting', who: 'Tima Miroshnichenko', where: 'Pexels', href: 'https://www.pexels.com/photo/a-tailor-measuring-his-client-using-a-tape-measure-6765658/'},
+  {what: 'Black suit', who: 'Ketut Subiyanto', where: 'Pexels', href: 'https://www.pexels.com/photo/man-wearing-his-black-suit-on-white-background-4965013/'},
+];

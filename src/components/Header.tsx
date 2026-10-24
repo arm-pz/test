@@ -20,7 +20,7 @@ export function Header() {
         <span className="mt-1.5 text-[0.75rem] tracking-[0.06em] text-mute">{shop.line}</span>
       </a>
       <nav className="flex items-center gap-6 text-small">
-        <a href="#visit" className="hidden text-mute no-underline hover:text-bone sm:inline">
+        <a href="#visit" className="hidden text-mute no-underline hover:text-ink sm:inline">
           Visit the shop
         </a>
         <a href={shop.phoneHref} className="text-right no-underline">

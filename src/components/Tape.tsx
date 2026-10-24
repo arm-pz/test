@@ -23,7 +23,7 @@ export function Tape({progress}: {progress: MotionValue<number>}) {
           </div>
         ))}
       </motion.div>
-      <div className="absolute inset-x-0 top-1/2 h-0.5 bg-wool" />
+      <div className="absolute inset-x-0 top-1/2 h-0.5 bg-ink" />
       <motion.span className="sr-only">{reading}</motion.span>
     </div>
   );
