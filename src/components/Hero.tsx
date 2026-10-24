@@ -2,25 +2,18 @@ import {AnimatePresence, motion, useMotionValue, useMotionValueEvent, useScroll,
 import {useEffect, useRef, useState} from 'react';
 import {beats, shop} from '../content';
 import {useReducedMotion} from '../hooks/useReducedMotion';
-import {JacketStage, apartAt} from './JacketStage';
+import {SuitStage} from './SuitStage';
 import {Tape} from './Tape';
 
 /**
- * One pinned stage, 540svh tall. Scroll progress p (0–1), smoothed by a
- * Framer Motion spring, drives the jacket layers, the copy and the tape.
- *
- *   0.00 – 0.05  the jacket on its hanger, whole
- *   0.05 – 0.42  button, flaps and welt come off, lapels open, fronts and
- *                sleeves lift away; the pad-stitched canvas shows underneath
- *   0.42 – 0.60  every piece held apart, outlined in chalk and named
- *   0.60 – 0.87  built back, sleeves first and button last
- *   0.88 – 1.00  the finished jacket gives way to the same cut, worn
+ * One pinned stage, 600svh tall. Scroll progress p (0–1), smoothed by a
+ * Framer Motion spring, drives the cloth, the pieces, the copy and the tape.
+ * The cloth-to-suit timeline itself is documented in SuitStage.
  */
 
 const EASE = [0.2, 0.7, 0.1, 1] as const;
 // beats sit at least 2 × FADE apart in content.ts, so two never show at once
 const FADE = 0.035;
-const ASPECT = 1648 / 2144;
 
 function Headline({text, animate}: {text: string; animate: boolean}) {
   const words = text.split(' ');
@@ -98,7 +91,7 @@ export function Hero() {
   const reduced = useReducedMotion();
   const narrow = useNarrow();
   const section = useRef<HTMLElement>(null);
-  const [apart, setApart] = useState(false);
+  const [cutting, setCutting] = useState(false);
 
   const {scrollYProgress} = useScroll({target: section, offset: ['start start', 'end end']});
   const smooth = useSpring(scrollYProgress, {stiffness: 80, damping: 24, mass: 0.55, restDelta: 0.0002});
@@ -106,15 +99,10 @@ export function Hero() {
   const p = reduced ? still : smooth;
 
   const cue = useTransform(scrollYProgress, [0, 0.04], [1, 0]);
-  const worn = useTransform(p, [0.88, 0.95], [0, 1]);
-  const wornScale = useTransform(p, [0.88, 1], [1.04, 1]);
-  const jacketOut = useTransform(p, [0.88, 0.95], [1, 0]);
-  // phones have no room to the sides, so the jacket shrinks while it is apart
-  const spread = useTransform(p, (v) => (narrow ? 1 - 0.3 * apartAt(v) : 1));
-  useMotionValueEvent(smooth, 'change', (v) => setApart(apartAt(v) > 0.9));
+  useMotionValueEvent(smooth, 'change', (v) => setCutting(v > 0.3 && v < 0.62));
 
   if (reduced) {
-    // A plain, complete page: every line of copy beside the photographs.
+    // A plain, complete page: every line of copy beside the finished suit.
     return (
       <section id="top" aria-label="Made to measure at Richman" className="relative overflow-hidden" style={{paddingTop: 'calc(110px + env(safe-area-inset-top, 0px))'}}>
         <div className="stage-light absolute inset-0" aria-hidden="true" />
@@ -129,10 +117,10 @@ export function Hero() {
             ))}
           </div>
           <div className="grid content-start gap-10">
-            <div className="relative mx-auto w-full max-w-[560px]" style={{aspectRatio: ASPECT}}>
-              <JacketStage progress={p} narrow={narrow} still />
+            <img src="media/suit/cloth.webp" alt="A length of blue windowpane suiting cloth" className="mx-auto aspect-square w-full max-w-[600px] object-cover" />
+            <div className="mx-auto aspect-square w-full max-w-[600px]">
+              <SuitStage progress={p} still />
             </div>
-            <img src="media/worn.webp" alt="A man in a slim black suit fastening the jacket button" className="mx-auto w-full max-w-[560px]" />
           </div>
         </div>
       </section>
@@ -140,33 +128,26 @@ export function Hero() {
   }
 
   return (
-    <section ref={section} id="top" aria-label="Made to measure at Richman" className="relative" style={{height: '540svh'}}>
+    <section ref={section} id="top" aria-label="Made to measure at Richman" className="relative" style={{height: '600svh'}}>
       <div className="sticky top-0 h-svh overflow-hidden">
         <div className="stage-light absolute inset-0" aria-hidden="true" />
 
-        {/* the jacket box: right of centre on wide screens, below the copy on phones */}
-        <div
-          className="absolute"
+        {/* the square work surface: right of centre on wide screens, below the copy on phones */}
+        <motion.div
+          className="absolute aspect-square"
           style={
             narrow
-              ? {left: 'calc(50% - 12px)', bottom: 'calc(3svh + env(safe-area-inset-bottom, 0px))', height: '50svh', aspectRatio: ASPECT, translate: '-50% 0'}
-              : {left: '61.5%', top: '50%', height: '82svh', aspectRatio: ASPECT, translate: '-50% -46%'}
+              ? {left: 'calc(50% - 12px)', bottom: 'calc(4svh + env(safe-area-inset-bottom, 0px))', width: 'min(calc(100vw - 56px), 56svh)', translate: '-50% 0'}
+              : {left: '62%', top: '50%', height: 'min(84svh, 50vw)', translate: '-50% -48%'}
           }
+          initial={{opacity: 0, x: 40}}
+          animate={{opacity: 1, x: 0}}
+          transition={{duration: 1.4, ease: EASE}}
         >
-          <motion.div className="absolute inset-0" initial={{opacity: 0, y: 24}} animate={{opacity: 1, y: 0}} transition={{duration: 1.4, ease: EASE}}>
-            <motion.div className="absolute inset-0 origin-bottom" style={{opacity: jacketOut, scale: spread}}>
-              <JacketStage progress={p} narrow={narrow} />
-            </motion.div>
-          </motion.div>
-          <motion.img
-            src="media/worn.webp"
-            alt="A man in a slim black suit fastening the jacket button"
-            className="absolute inset-0 size-full object-cover object-[50%_30%]"
-            style={{opacity: worn, scale: wornScale}}
-          />
-        </div>
+          <SuitStage progress={p} />
+        </motion.div>
 
-        <div className="pointer-events-none absolute z-10 grid w-[min(31rem,40vw)] max-md:w-auto" style={{left: 'var(--gutter-l)', top: 0, bottom: 0, right: narrow ? 'calc(var(--gutter-r) + 24px)' : undefined}}>
+        <div className="pointer-events-none absolute z-10 grid w-[min(31rem,36vw)] max-md:w-auto" style={{left: 'var(--gutter-l)', top: 0, bottom: 0, right: narrow ? 'calc(var(--gutter-r) + 24px)' : undefined}}>
           <div className="grid max-md:mt-[calc(92px+env(safe-area-inset-top,0px))] md:my-auto">
             {beats.map((_, i) => (
               <Beat key={i} i={i} p={p} />
@@ -175,7 +156,7 @@ export function Hero() {
         </div>
 
         <AnimatePresence>
-          {apart && (
+          {cutting && (
             <motion.p
               key="note"
               className="absolute z-10 text-small text-mute max-md:hidden"
@@ -185,13 +166,13 @@ export function Hero() {
               exit={{opacity: 0, y: 8}}
               transition={{duration: 0.5, ease: EASE}}
             >
-              One jacket, cut along its seams
+              Eight pieces from one length of cloth
             </motion.p>
           )}
         </AnimatePresence>
 
         <motion.p className="absolute z-10 text-small text-mute max-md:hidden" style={{left: 'var(--gutter-l)', bottom: 'calc(24px + env(safe-area-inset-bottom, 0px))', opacity: cue}}>
-          Scroll to take the jacket apart
+          Scroll to cut the cloth
         </motion.p>
 
         <Tape progress={p} />

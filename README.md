@@ -2,38 +2,48 @@
 
 Website for **Richman, Collections & Designs** (Malabar Gate Building, Ram Mohan Road, Calicut).
 
-## The hero
+## The hero: from cloth to suit
 
-One pinned scroll scene built from real photographs:
+One pinned scroll scene, built from two real photographs:
 
-1. A black jacket hangs on its hanger, whole.
-2. As you scroll, it comes apart along its seams: button, flaps and welt first, then the
-   lapels open like pages, the fronts lift and the sleeves swing off. Each piece is a layer
-   cut from the same photograph, moved in CSS 3D depth by Framer Motion.
-3. Under the wool is a second photograph: canvas pad-stitched by hand, masked to the
-   jacket's silhouette, so lifting the cloth shows what holds a jacket's shape.
-4. Pieces hold apart with chalk outlines and names, then go back together, and the jacket
-   gives way to a photograph of the same cut, worn.
+1. **The cloth.** A length of blue windowpane suiting, selvedge and all.
+2. **Chalk.** Eight pattern pieces are drawn onto it the way a cutter lays a marker: on the
+   grain, with grain-line arrows and the piece written on each one.
+3. **The cut.** The pieces lift off the cloth, leaving the holes behind; the remnant falls away.
+4. **Assembly.** Pair by pair (trousers, waistcoat, fronts, sleeves) each piece flies to its
+   place over a faint ghost of the finished suit.
+5. **The suit.** The photograph of the finished three-piece takes over.
 
-A tailor's tape on the right edge runs out as you scroll.
+Each pattern piece is the suit's own outline, traced from the photograph, so the pieces land
+exactly where the photographed suit is. A tailor's tape on the right edge runs out as you scroll.
 
 ## Photographs
 
-`public/media/` — all free-licence stock, credited in the page footer, as stand-ins until
-the shop's own photographs are available:
+All free-licence stock, credited in the footer, as stand-ins until the shop's own photographs are
+available. The cloth's selvedge lettering (a mill name and "Made in Italy") was painted out so the
+page makes no claim about the cloth's origin.
 
 | File | Source |
 | --- | --- |
-| `jacket/*.webp` | Victoria Priessnitz, Unsplash (background removed, hanger print painted out) |
-| `jacket/inside.webp` | Tima Miroshnichenko, Pexels — pad-stitched canvas |
-| `atelier.webp` | Tima Miroshnichenko, Pexels |
-| `worn.webp` | Ketut Subiyanto, Pexels |
+| `public/media/suit/suit.webp` | Benjamin R. (Dapper Professional), Unsplash — background removed |
+| `public/media/suit/cloth.webp` | Garima Bhaskar, Pexels — selvedge lettering removed |
+| `public/media/atelier.webp` | Tima Miroshnichenko, Pexels |
 
-To swap in the shop's own jacket photo: shoot it front-on against a plain wall, then run
-`scripts/segment_jacket.py` (U²-Net background removal), adjust the seam outlines in
-`scripts/jacket_pieces.py`, and run `scripts/cut_jacket.py`. It writes the layers to
-`public/media/jacket/` and their positions and outlines to `src/jacket.json`.
-Run them from the repo root with the source photos and `u2net.onnx` in `raw/` (git-ignored).
+### Rebuilding the assets
+
+From the repo root, with the source photos `raw/suit.jpg`, `raw/cloth.jpg` and the U²-Net model
+`raw/u2net.onnx` in a git-ignored `raw/` folder:
+
+```sh
+python3 scripts/suit_cut.py      # cut the suit out of its backdrop
+python3 scripts/cloth_prep.py    # remove selvedge lettering, square crop
+python3 scripts/layout.py        # optional: preview the cutting layout
+python3 scripts/export_suit.py   # write public/media/suit/* and src/suit.json
+```
+
+Piece outlines live in `scripts/suit_pieces.py`; their positions on the cloth in
+`scripts/layout.py`. To use the shop's own suit, photograph it front-on against a plain wall,
+retrace the outlines on it, and rerun.
 
 ## Stack
 
@@ -47,5 +57,5 @@ npm run build        # dist/
 npm run build:single # dist-single/index.html with JS and CSS inlined (photos stay in media/)
 ```
 
-With `prefers-reduced-motion: reduce`, the page is a plain stack of the copy beside the
-whole jacket and the worn photograph.
+With `prefers-reduced-motion: reduce`, the page is a plain stack of the copy beside the cloth
+and the finished suit.
