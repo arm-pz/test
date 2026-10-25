@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "quantgpt": {
+      "type": "http",
+      "url": "https://terminal.quantgpt.co/mcp",
+      "headers": {
+        "Authorization": "Bearer ${QUANTGPT_API_KEY}"
+      }
+    }
+  }
+}
