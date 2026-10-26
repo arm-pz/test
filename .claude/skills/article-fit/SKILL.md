@@ -1,6 +1,6 @@
 ---
 name: article-fit
-description: Analyse a pasted or attached PDF (usually an article, blog post, paper or vendor write-up) and decide whether its ideas fit our Claude ecosystem as a skill, agent, mod, workflow, hook or connector. Outputs a ranked list of actionable items for the team to approve or reject; builds nothing until told. Use when the user shares a PDF/article and asks "does this fit", "can we use this", "should we build this", "triage this article", or just drops a PDF with no other instruction.
+description: Read an article PDF (blog post, paper, vendor write-up) and judge whether its ideas fit the arm-pz ecosystem as a skill, agent, mod, workflow, hook or connector, or as a change to a skill we already have. Returns a ranked list of actionable items with value, effort and overlaps for the team to approve or reject, and builds nothing until told. Use whenever the user pastes or attaches an article and asks "does this fit", "can we use this", "should we build something from this", "is there a skill in here", "triage this", or drops an article PDF with no other instruction, even if they never say "ecosystem". Not for extracting, merging or editing PDFs (use pdf), writing the skill an item becomes (use draft-skill), tuning an existing skill (use tune-skill), or deciding whether an existing skill should become a mod (use skill-to-mod).
 ---
 
 # Article fit
@@ -27,7 +27,9 @@ Check, in this order, and note what you find:
 1. **Ecosystem notes** in this skill (section below) — the team's own map.
 2. **Repo**: `.claude/skills/`, `.claude/agents/`, `.claude/commands/`,
    `.claude/settings.json` (hooks), `CLAUDE.md`, any plugin/mod folders.
-3. **Session**: the skills, agent types, plugins and MCP connectors listed in
+3. **Siblings an idea touches**: open their `SKILL.md` description, not the
+   README (READMEs drift). One line each: what it claims, what it hands off.
+4. **Session**: the skills, agent types, plugins and MCP connectors listed in
    your context (and `ListSkills` / `ListPlugins` / `ListConnectors` if
    available).
 
@@ -45,9 +47,9 @@ Pick the **one** best vehicle. Use this table:
 |---|---|---|
 | **Skill** | Reusable know-how or a procedure Claude follows on request (a checklist, a house style, a playbook, a prompt pattern) | `draft-skill` → new `arm-pz/<name>` repo, then `tune-skill` + `findable` |
 | **Agent** | A self-contained task worth its own context window, tools and persona (researcher, reviewer, analyst) that returns one result | `.claude/agents/<name>.md` |
-| **Mod** | A change to Claude's own interface or behaviour: side panel, status line, toast, slash command, tool-call hook | `plugin-authoring` |
+| **Mod** | A change to Claude's own interface or behaviour: side panel, status line, toast, slash command, tool-call hook | `skill-to-mod` if it wraps an existing skill, else `plugin-authoring` |
 | **Workflow** | Several steps chained over time or across tools, often recurring or triggered (daily digest, triage pipeline, multi-agent fan-out) | scheduled task / `loop` + skills/agents |
-| **Hook** | Something that must happen automatically on an event, every time, without Claude choosing to | `update-config` → `settings.json` hooks |
+| **Hook** | Something that must happen automatically on an event (before push, after edits), every time, without Claude choosing to | `skill-to-mod` for a skill that must run at that moment, else `update-config` → `settings.json` hooks |
 | **Connector** | Needs live access to an external system we don't reach yet | MCP server / connector |
 | **Enhance existing** | Improves something we already have (name it) | edit that skill/agent/mod |
 | **No fit** | Interesting but not buildable, already covered, or not worth the upkeep | — |
@@ -85,7 +87,9 @@ Reply in chat with exactly this shape. Keep it scannable; no essay.
 ### Item details
 **1. <Item>** — *from §<section>/p.<page>*
 - What it does: <1–2 lines>
-- Sketch: <name, trigger/description, key steps or tools>
+- Sketch: <name (lowercase-hyphenated, verb-led), what it produces, key steps or tools>
+- Boundary: owns <…> · stops at <…>, hands to <sibling>
+- Example requests: <3–4 messages it should catch, 1 it should refuse>
 - Risks / open questions: <anything that needs a human call>
 
 ### Not pursuing
@@ -102,7 +106,10 @@ if there are more, keep the best and move the rest to *Not pursuing*.
 ## 7. After the decision
 
 - **Go on items** → build each with the tool named in its Vehicle row, one at a
-  time, confirming the name and location first. Commit on the working branch.
+  time. For a skill, hand `draft-skill` the item's detail block (sketch,
+  boundary, example requests) as its step-1 input; it still confirms intent
+  before writing. For an *enhance existing* item, hand `tune-skill` the target
+  skill's name and the finding. Say which handoff you are making.
 - **Park** → if a backlog file exists (see ecosystem notes), append the items
   with the article title and date; otherwise offer to create one.
 - **Drop** → nothing to do.
@@ -113,7 +120,7 @@ Our ecosystem is the **arm-pz** catalog: public agent skills and Claude Code
 plugins, one repo each (`skills/<name>/SKILL.md`, optional
 `.claude-plugin/plugin.json`, `references/`, `scripts/`, `tests/`), installed
 with `npx skills add arm-pz/<repo> --skill <name>`. To see the current list, list
-the arm-pz repos and read each one's README. Don't trust this snapshot over the
+the arm-pz repos and read each one's `SKILL.md` description. Don't trust this snapshot over the
 live list.
 
 - **Skill-building family (most articles land here):**
