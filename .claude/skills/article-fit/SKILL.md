@@ -43,7 +43,7 @@ Pick the **one** best vehicle. Use this table:
 
 | Vehicle | Pick it when the idea is… | Built with |
 |---|---|---|
-| **Skill** | Reusable know-how or a procedure Claude follows on request (a checklist, a house style, a playbook, a prompt pattern) | `skill-creator` → `.claude/skills/<name>/SKILL.md` |
+| **Skill** | Reusable know-how or a procedure Claude follows on request (a checklist, a house style, a playbook, a prompt pattern) | `draft-skill` → new `arm-pz/<name>` repo, then `tune-skill` + `findable` |
 | **Agent** | A self-contained task worth its own context window, tools and persona (researcher, reviewer, analyst) that returns one result | `.claude/agents/<name>.md` |
 | **Mod** | A change to Claude's own interface or behaviour: side panel, status line, toast, slash command, tool-call hook | `plugin-authoring` |
 | **Workflow** | Several steps chained over time or across tools, often recurring or triggered (daily digest, triage pipeline, multi-agent fan-out) | scheduled task / `loop` + skills/agents |
