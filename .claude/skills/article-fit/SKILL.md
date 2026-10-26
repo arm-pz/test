@@ -109,9 +109,35 @@ if there are more, keep the best and move the rest to *Not pursuing*.
 
 ## Ecosystem notes
 
-<!-- Fill this in so the analysis knows our world. Keep it short. -->
-- **What we do / our goals:** _TODO_
-- **Existing skills, agents, mods worth knowing:** _TODO_
-- **Tools & connectors we rely on:** _TODO_
-- **Things we deliberately don't build:** _TODO_
-- **Backlog location for parked items:** _TODO_ (e.g. `docs/backlog.md`)
+Our ecosystem is the **arm-pz** catalog: public agent skills and Claude Code
+plugins, one repo each (`skills/<name>/SKILL.md`, optional
+`.claude-plugin/plugin.json`, `references/`, `scripts/`, `tests/`), installed
+with `npx skills add arm-pz/<repo> --skill <name>`. To see the current list, list
+the arm-pz repos and read each one's README. Don't trust this snapshot over the
+live list.
+
+- **Skill-building family (most articles land here):**
+  - `draft-skill`: authors a new skill
+  - `tune-skill`: tunes an existing SKILL.md so it triggers correctly
+  - `prompts-to-skill` (+ `-agent`, `-release`): turns a list of prompts into a skill
+  - `skill-to-mod`: turns a skill into a mod
+  - `skill-launch`, `tune-and-polish`
+- **Discovery & publishing:**
+  - `findable`: makes a repo/skill/plugin findable through its About text, topics, README and directories
+  - `findable-polish`
+  - `publish-pipeline`: publishes the `/.well-known/agent-skills` index, skill pages and sitemap
+  - `upstream-check`: finds drift between listings and repos
+  - `skills-site`
+- **Release gates & pre-ship checks:** `release-gate-chair`, `release-gate-ledger`,
+  `release-gate-validator`, `publish-release-gate`, `ship-sentinel`,
+  `pre-ship-performance-audit`, `pre-ship-security-red-team`, `crash-test`,
+  `do-better`
+- **SEO:** `seo-crawl`, `seo-polish`, `keyword-guard`, `keyword-resolver`
+- **Outbound:** `outbound-ops`, `cold-email-ops`, `cold-email-list-gate`
+- **Things we deliberately don't build:** star gaming, fake reviews, topic
+  stuffing, undisclosed promotion (see findable's ground rules). Never give a new
+  skill trigger phrases that a sibling already uses.
+- **Where a "go" item lands:** a new repo `arm-pz/<name>` in the standard layout,
+  built with `draft-skill`, then `tune-skill`, then `findable`. Prefer extending
+  an existing repo when the idea fits one of the families above.
+- **Backlog location for parked items:** _TODO_ (e.g. `docs/backlog.md` in this repo)
