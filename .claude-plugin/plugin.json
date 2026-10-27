@@ -1,0 +1,14 @@
+{
+  "$schema": "https://anthropic.com/claude-code/plugin.schema.json",
+  "name": "article-fit",
+  "version": "0.1.0",
+  "description": "Reads an article PDF and judges whether its ideas fit the arm-pz ecosystem as a skill, agent, mod, workflow, hook or connector. Returns ranked actionable items for the team to approve; builds nothing until told.",
+  "author": {
+    "name": "Abdul Rahman P Z",
+    "url": "https://github.com/arm-pz"
+  },
+  "homepage": "https://github.com/arm-pz/article-fit",
+  "repository": "https://github.com/arm-pz/article-fit",
+  "keywords": ["agent-skills", "triage", "pdf", "articles", "claude-code"],
+  "skills": "./skills/"
+}
