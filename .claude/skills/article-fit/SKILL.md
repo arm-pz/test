@@ -1,6 +1,6 @@
 ---
 name: article-fit
-description: Read an article PDF (blog post, paper, vendor write-up) and judge whether its ideas fit the arm-pz ecosystem as a skill, agent, mod, workflow, hook or connector, or as a change to a skill we already have. Returns a ranked list of actionable items with value, effort and overlaps for the team to approve or reject, and builds nothing until told. Use whenever the user pastes or attaches an article and asks "does this fit", "can we use this", "should we build something from this", "is there a skill in here", "triage this", or drops an article PDF with no other instruction, even if they never say "ecosystem". Not for extracting, merging or editing PDFs (use pdf), writing the skill an item becomes (use draft-skill), tuning an existing skill (use tune-skill), or deciding whether an existing skill should become a mod (use skill-to-mod).
+description: Read an article PDF (blog post, paper, vendor write-up) and judge whether its ideas fit the arm-pz ecosystem as a skill, agent, mod, workflow, hook or connector, or as a change to a skill we already have. Returns a ranked list of actionable items with value, effort and overlaps for the team to approve or reject, and builds nothing until told. Use whenever the user pastes or attaches an article and asks "does this fit", "can we use this", "should we build something from this", "is there a skill in here", "make a skill from this article", "triage this", or drops an article PDF with no other instruction, even if they never say "ecosystem". Chosen skill items are handed to draft-skill. Not for extracting, merging or editing PDFs (use pdf), drafting a skill from an idea with no article (use draft-skill), tuning an existing skill (use tune-skill), or deciding whether an existing skill should become a mod (use skill-to-mod).
 ---
 
 # Article fit
@@ -9,6 +9,11 @@ Turn an article into decisions. The job is to read it, map each usable idea onto
 something we could build in our ecosystem, and hand back a short list of
 actionable items. **We decide; you don't build.** Never create files, agents or
 config from this skill — that happens only after the user picks items.
+
+**Already decided?** If the user asks to make a skill (or agent, or mod) from
+the article, still run steps 1–5, but only for the idea they named. Output just
+that one item's detail block plus any overlaps, then wait for `go`. If it
+overlaps an existing skill, recommend *enhance existing* instead.
 
 ## 1. Read the PDF
 
