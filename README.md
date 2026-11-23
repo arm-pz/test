@@ -42,7 +42,7 @@ cd site && npm install && npm run dev
 - the menu, and Back pressed during a transition
 - horizontal overflow, the footer, reduced motion, and the phone card row
 
-CI runs it on every pull request, and merges to `main` deploy `site/dist` to the `gh-pages` branch.
+CI runs it on every pull request, and merges to `master` deploy `site/dist` to the `gh-pages` branch.
 
 ## Before going live
 

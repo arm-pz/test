@@ -4,7 +4,7 @@ on:
   pull_request:
     paths: ['site/**', 'assets/**', '.github/workflows/site.yml']
   push:
-    branches: [main]
+    branches: [master]
     paths: ['site/**', 'assets/**', '.github/workflows/site.yml']
   workflow_dispatch:
 
@@ -39,7 +39,7 @@ jobs:
 
   deploy:
     # Publishes the built site to the gh-pages branch (Settings → Pages → Deploy from branch: gh-pages).
-    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/master'
     needs: test
     runs-on: ubuntu-latest
     permissions:
